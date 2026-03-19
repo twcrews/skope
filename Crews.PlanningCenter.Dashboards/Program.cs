@@ -1,6 +1,7 @@
 using Crews.PlanningCenter.Api.Authentication;
 using Crews.PlanningCenter.Api.Extensions;
 using Crews.PlanningCenter.Dashboards.Components;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.FluentUI.AspNetCore.Components;
 
@@ -52,5 +53,15 @@ app.UseAntiforgery();
 app.MapStaticAssets();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
+
+// OIDC
+app.MapGet("/login", () => Results.Challenge(
+    new AuthenticationProperties { RedirectUri = "/" }, [PlanningCenterAuthenticationDefaults.AuthenticationScheme]))
+    .AllowAnonymous();
+app.MapGet("/logout", async (HttpContext context) =>
+{
+    await context.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+    return Results.Redirect("/");
+}).RequireAuthorization();
 
 app.Run();

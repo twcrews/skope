@@ -1,9 +1,36 @@
+using Crews.PlanningCenter.Api.Authentication;
+using Crews.PlanningCenter.Api.Extensions;
 using Crews.PlanningCenter.Dashboards.Components;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.FluentUI.AspNetCore.Components;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Services
+    .AddAuthentication(options =>
+    {
+        options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = PlanningCenterAuthenticationDefaults.AuthenticationScheme;
+        options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    })
+    .AddCookie()
+    .AddPlanningCenterAuthentication(config =>
+    {
+        config.Scope.Clear();
+        config.Scope.Add("openid");
+        config.Scope.Add("api");
+        config.Scope.Add("calendar");
+        config.Scope.Add("check_ins");
+        config.Scope.Add("giving");
+        config.Scope.Add("groups");
+        config.Scope.Add("people");
+        config.Scope.Add("publishing");
+        config.Scope.Add("registrations");
+        config.Scope.Add("services");
+    });
+
+builder.Services.AddPlanningCenterApi();
+
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 builder.Services.AddFluentUIComponents();

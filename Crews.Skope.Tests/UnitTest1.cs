@@ -1,4 +1,4 @@
-﻿namespace Crews.PlanningCenter.Dashboards.Tests;
+﻿namespace Crews.Skope.Tests;
 
 public class UnitTest1
 {

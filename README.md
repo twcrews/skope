@@ -1,4 +1,4 @@
-# Planning Center Dashboards
+# Skope
 
 This app allows you to create beautiful dashboards from all your Planning Center data.
 

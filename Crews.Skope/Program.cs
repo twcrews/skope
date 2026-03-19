@@ -1,6 +1,6 @@
 using Crews.PlanningCenter.Api.Authentication;
 using Crews.PlanningCenter.Api.Extensions;
-using Crews.PlanningCenter.Dashboards.Components;
+using Crews.Skope.Components;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.FluentUI.AspNetCore.Components;

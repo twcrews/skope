@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ```bash
 dotnet build                    # Build the solution
-dotnet run --project Crews.PlanningCenter.Dashboards  # Run the app
+dotnet run --project Crews.Skope  # Run the app
 dotnet test                     # Run all tests
 dotnet test --filter "FullyQualifiedName~TestName"    # Run a single test
 ```
@@ -21,8 +21,8 @@ The app runs at `http://localhost:5228` (HTTP) or `https://localhost:7259` (HTTP
 
 ### Project Layout
 
-- `Crews.PlanningCenter.Dashboards/` — Main Blazor Web app
-- `Crews.PlanningCenter.Dashboards.Tests/` — xUnit test project
+- `Crews.Skope/` — Main Blazor Web app
+- `Crews.Skope.Tests/` — xUnit test project
 
 ### Key Dependencies
 

@@ -1,0 +1,222 @@
+<head>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+</head>
+<style>
+	@import url("https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;500&family=Inter:wght@400;500&display=swap");
+
+  body {
+    margin: 0;
+    background: #0a1019;
+  }
+	.fc-label {
+		font-size: 11px;
+		font-weight: 500;
+		color: #4a6a8a;
+		text-transform: uppercase;
+		letter-spacing: 0.07em;
+		margin-bottom: 10px;
+	}
+	.mock {
+		background: #0a1019;
+		border-radius: 12px;
+		overflow: hidden;
+		border: 0.5px solid #1e2d42;
+	}
+	.mock-nav {
+		background: #070d14;
+		border-bottom: 0.5px solid #1e2d42;
+		display: flex;
+		align-items: center;
+		gap: 16px;
+		padding: 0 16px;
+		height: 42px;
+	}
+	.mock-logo {
+		font-family: "Noto Serif", serif;
+		font-size: 16px;
+		font-weight: 500;
+		color: #85b7eb;
+		letter-spacing: -0.2px;
+		margin-right: 6px;
+	}
+	.mock-navlink {
+		font-size: 12px;
+		color: #4a6a8a;
+	}
+	.mock-navlink.active {
+		color: #85b7eb;
+	}
+	.mock-navbtn {
+		margin-left: auto;
+		font-size: 12px;
+		font-weight: 500;
+		background: #185fa5;
+		color: #e6f1fb;
+		border-radius: 5px;
+		padding: 4px 10px;
+		border: none;
+	}
+	.mock-body {
+    margin: 0 auto;
+		padding: 16px 0;
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 10px;
+    max-width: 600px;
+	}
+	.mock-metric {
+		background: #070d14;
+		border: 0.5px solid #1e2d42;
+		border-radius: 8px;
+		padding: 12px 14px;
+	}
+	.mock-mlabel {
+		font-size: 11px;
+		color: #4a6a8a;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+		margin-bottom: 5px;
+	}
+	.mock-mval {
+		font-size: 20px;
+		font-weight: 500;
+		color: #c8ddf0;
+	}
+	.mock-msub {
+		font-size: 11px;
+		color: #1d9e75;
+		margin-top: 2px;
+	}
+	.mock-panel {
+    max-width: 600px;
+		margin: 0 auto;
+		background: #070d14;
+		border: 0.5px solid #1e2d42;
+		border-radius: 8px;
+		padding: 14px;
+    box-sizing: border-box;
+	}
+	.mock-ptitle {
+		font-size: 11px;
+		font-weight: 500;
+		color: #4a6a8a;
+		text-transform: uppercase;
+		letter-spacing: 0.06em;
+		margin-bottom: 10px;
+	}
+	.mock-row {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		padding: 6px 0;
+		border-bottom: 0.5px solid #131e2e;
+	}
+	.mock-row:last-child {
+		border-bottom: none;
+	}
+	.mock-av {
+		width: 26px;
+		height: 26px;
+		border-radius: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 10px;
+		font-weight: 500;
+		flex-shrink: 0;
+	}
+	.mock-name {
+		font-size: 12px;
+		color: #c8ddf0;
+	}
+	.mock-role {
+		font-size: 11px;
+		color: #4a6a8a;
+	}
+	.mock-badge {
+		font-size: 10px;
+		font-weight: 500;
+		border-radius: 3px;
+		padding: 2px 6px;
+		margin-left: auto;
+	}
+	.bt-teal {
+		background: #085041;
+		color: #5dcaa5;
+	}
+	.bt-amber {
+		background: #412402;
+		color: #ef9f27;
+	}
+	.bt-blue {
+		background: #0c447c;
+		color: #85b7eb;
+	}
+
+	.inter * {
+		font-family: "Inter", sans-serif;
+	}
+	.inter .mock-logo {
+		font-family: "Noto Serif", serif;
+	}
+</style>
+
+<div class="inter">
+  <div class="mock-nav">
+    <img src="wordmark.svg" height="18"/>
+    <span class="mock-navlink active">Dashboard</span>
+    <span class="mock-navlink">People</span>
+    <span class="mock-navlink">Groups</span>
+    <button class="mock-navbtn">+ New view</button>
+  </div>
+  <div class="mock-body">
+    <div class="mock-metric">
+      <div class="mock-mlabel">Members</div>
+      <div class="mock-mval">1,284</div>
+      <div class="mock-msub">+12 this month</div>
+    </div>
+    <div class="mock-metric">
+      <div class="mock-mlabel">Attendance</div>
+      <div class="mock-mval">68%</div>
+      <div class="mock-msub">Last Sunday</div>
+    </div>
+    <div class="mock-metric">
+      <div class="mock-mlabel">Volunteers</div>
+      <div class="mock-mval">213</div>
+      <div class="mock-msub">+8 this week</div>
+    </div>
+  </div>
+  <div class="mock-panel">
+    <div class="mock-ptitle">Recent check-ins</div>
+    <div class="mock-row">
+      <div class="mock-av" style="background: #0c447c; color: #85b7eb">
+        SR
+      </div>
+      <div>
+        <div class="mock-name">Sarah Reynolds</div>
+        <div class="mock-role">Small groups</div>
+      </div>
+      <span class="mock-badge bt-teal">Active</span>
+    </div>
+    <div class="mock-row">
+      <div class="mock-av" style="background: #412402; color: #ef9f27">
+        TM
+      </div>
+      <div>
+        <div class="mock-name">Tom Mitchell</div>
+        <div class="mock-role">Volunteer</div>
+      </div>
+      <span class="mock-badge bt-amber">Follow up</span>
+    </div>
+    <div class="mock-row">
+      <div class="mock-av" style="background: #085041; color: #5dcaa5">
+        AL
+      </div>
+      <div>
+        <div class="mock-name">Amy Liu</div>
+        <div class="mock-role">Youth</div>
+      </div>
+      <span class="mock-badge bt-blue">New</span>
+    </div>
+  </div>
+</div>

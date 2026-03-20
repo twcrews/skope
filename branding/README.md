@@ -4,6 +4,8 @@
 
 Skope is an open-source dashboard app for Planning Center data. The brand balances modern SaaS clarity with warmth rooted in ministry context. The name derives from the Greek *skopéō* (σκοπέω) — to observe carefully and with intention — a word used throughout the New Testament to describe focused, purposeful sight.
 
+[View application mockup](mockup.html)
+
 ## Logo
 
 ### Wordmark

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="1200"
+   height="600"
+   viewBox="0 0 1200 600"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4.3 (0d15f75, 2025-12-25)"
+   sodipodi:docname="wordmark.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#505050"
+     inkscape:document-units="px"
+     inkscape:zoom="0.5262093"
+     inkscape:cx="422.83555"
+     inkscape:cy="111.17249"
+     inkscape:window-width="2056"
+     inkscape:window-height="1262"
+     inkscape:window-x="0"
+     inkscape:window-y="39"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:#185fa5;stroke:none;stroke-width:72;stroke-linecap:round;stroke-linejoin:round;fill-opacity:1"
+       id="rect1"
+       width="1200"
+       height="600"
+       x="0"
+       y="0" />
+    <g
+       id="g2"
+       transform="translate(-3.6915894,3.4975281)">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:400px;font-family:'Noto Serif';-inkscape-font-specification:'Noto Serif';font-feature-settings:'ss03';text-align:center;letter-spacing:-20px;writing-mode:lr-tb;direction:ltr;text-anchor:middle;fill:#b5d4f4;fill-opacity:1;stroke:none;stroke-width:72;stroke-linecap:round;stroke-linejoin:round"
+         x="604.09137"
+         y="400.50256"
+         id="text1"><tspan
+           sodipodi:role="line"
+           id="tspan1"
+           x="594.09137"
+           y="400.50256"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:400px;font-family:'Noto Serif';-inkscape-font-specification:'Noto Serif';letter-spacing:-20px;fill:#b5d4f4;fill-opacity:1;stroke:none;stroke-opacity:1"
+           dx="0">Skope</tspan></text>
+      <path
+         id="text2"
+         style="font-size:400px;font-family:'Noto Serif';-inkscape-font-specification:'Noto Serif';font-feature-settings:'ss03';text-align:center;letter-spacing:-20px;text-anchor:middle;fill:#b5d4f4;stroke-width:23.6653;stroke-linecap:round;stroke-linejoin:round"
+         d="m 596.40518,256.7007 c -10.1673,0 -17.88056,3.02376 -23.1395,9.07156 -5.1713,5.96014 -7.75683,15.0754 -7.75683,27.34628 0,12.35853 2.71675,21.56169 8.15099,27.60949 5.43425,6.04779 12.88443,9.07156 22.35054,9.07156 10.1673,0 17.8366,-3.02377 23.00791,-9.07156 5.25894,-6.0478 7.88841,-15.25096 7.88841,-27.60949 0,-12.27088 -2.71673,-21.38614 -8.15098,-27.34628 -5.43425,-6.0478 -12.88443,-9.07156 -22.35054,-9.07156 z" />
+    </g>
+  </g>
+</svg>

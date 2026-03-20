@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="500"
+   height="500"
+   viewBox="0 0 500 500"
+   version="1.1"
+   id="svg1"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <g
+     id="layer1">
+    <rect
+       style="opacity:1;fill:#042c53;fill-opacity:1;stroke-width:72;stroke-linecap:round;stroke-linejoin:round"
+       id="rect1"
+       width="500"
+       height="500"
+       x="0"
+       y="0"
+       rx="120"
+       ry="120" />
+    <g
+       id="g2"
+       transform="matrix(1.8884892,0,0,1.8884892,-875.32383,-303.89872)"
+       style="fill:#85b7eb;fill-opacity:1">
+      <path
+         d="m 595.49125,404.50256 c -28.8,0 -51.46667,-9.2 -68,-27.6 -33.95276,-37.78613 -32.87643,-130.69157 -1.2,-167.2 16,-18.4 39.46667,-27.6 70.4,-27.6 28.8,0 51.46667,9.2 68,27.6 16.53333,18.13333 24.8,45.86667 24.8,83.2 0,37.6 -8,65.6 -24,84 -15.73333,18.4 -39.06667,27.6 -70,27.6 z m 0.8,-20.8 c 13.33333,0 24,-3.33333 32,-10 8,-6.93333 13.73333,-17.2 17.2,-30.8 3.46667,-13.6 5.2,-30.26667 5.2,-50 0,-29.86667 -4.13333,-52.26667 -12.4,-67.2 -8.26667,-14.93333 -22.4,-22.4 -42.4,-22.4 -20,0 -34.13333,7.46667 -42.4,22.4 -8,14.93333 -12,37.33333 -12,67.2 0,29.86667 4.13333,52.53333 12.4,68 8.26667,15.2 22.4,22.8 42.4,22.8 z"
+         id="text1"
+         style="font-size:400px;font-family:'Noto Serif';-inkscape-font-specification:'Noto Serif';font-feature-settings:'ss03';text-align:center;letter-spacing:-20px;text-anchor:middle;stroke-width:72;stroke-linecap:round;stroke-linejoin:round"
+         aria-label="Skope" />
+      <path
+         id="text2"
+         style="font-size:400px;font-family:'Noto Serif';-inkscape-font-specification:'Noto Serif';font-feature-settings:'ss03';text-align:center;letter-spacing:-20px;text-anchor:middle;fill:#85b7eb;fill-opacity:1;stroke-width:23.6653;stroke-linecap:round;stroke-linejoin:round"
+         d="m 596.40518,256.7007 c -10.1673,0 -17.88056,3.02376 -23.1395,9.07156 -5.1713,5.96014 -7.75683,15.0754 -7.75683,27.34628 0,12.35853 2.71675,21.56169 8.15099,27.60949 5.43425,6.04779 12.88443,9.07156 22.35054,9.07156 10.1673,0 17.8366,-3.02377 23.00791,-9.07156 5.25894,-6.0478 7.88841,-15.25096 7.88841,-27.60949 0,-12.27088 -2.71673,-21.38614 -8.15098,-27.34628 -5.43425,-6.0478 -12.88443,-9.07156 -22.35054,-9.07156 z" />
+    </g>
+  </g>
+</svg>

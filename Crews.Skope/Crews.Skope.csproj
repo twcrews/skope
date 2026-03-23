@@ -5,12 +5,12 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <BlazorDisableThrowNavigationException>true</BlazorDisableThrowNavigationException>
-    <UserSecretsId>20dae6f3-d051-4e7f-8596-ec5b885d2997</UserSecretsId>
+    <UserSecretsId>61cc9d87-6512-4580-832f-0ece06b4efe6</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Crews.PlanningCenter.Api" Version="3.0.0" />
-    <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" Version="4.14.0" />
-    <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Icons" Version="4.14.0" />
+    <PackageReference Include="Radzen.Blazor" Version="10.0.5" />
   </ItemGroup>
+
 </Project>

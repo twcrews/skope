@@ -1,0 +1,26 @@
+@inject IJSRuntime JS
+
+<RadzenButton Icon="@(_isDark ? "light_mode" : "dark_mode")"
+              ButtonStyle="ButtonStyle.Base"
+              Variant="Variant.Text"
+              Click="ToggleAsync"
+              title="@(_isDark ? "Switch to light mode" : "Switch to dark mode")" />
+
+@code {
+    bool _isDark;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _isDark = await JS.InvokeAsync<string>("skope.getTheme") == "dark";
+            StateHasChanged();
+        }
+    }
+
+    async Task ToggleAsync()
+    {
+        _isDark = !_isDark;
+        await JS.InvokeVoidAsync("skope.setTheme", _isDark ? "dark" : "light");
+    }
+}

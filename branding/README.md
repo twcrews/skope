@@ -30,8 +30,6 @@ The core brand color. Conveys trust, clarity, and depth. Used for buttons, links
 | ![](https://placehold.co/72x32/0C447C/0C447C) | Blue 800 | `#0C447C` | Dark accents, text on light blue surfaces |
 | ![](https://placehold.co/72x32/042C53/042C53) | Blue 900 | `#042C53` | Deep navy, dark mode nav, headings |
 
----
-
 ### Secondary — Teal
 
 The warmth accent for ministry context. Represents life, growth, and community. Used for success states, active badges, chart series, and icons.
@@ -45,8 +43,6 @@ The warmth accent for ministry context. Represents life, growth, and community. 
 | ![](https://placehold.co/72x32/0F6E56/0F6E56) | Teal 600 | `#0F6E56` | Borders on teal surfaces |
 | ![](https://placehold.co/72x32/085041/085041) | Teal 800 | `#085041` | Text on teal surfaces |
 | ![](https://placehold.co/72x32/04342C/04342C) | Teal 900 | `#04342C` | Deep teal, dark mode surfaces |
-
----
 
 ### Warmth — Amber
 
@@ -62,8 +58,6 @@ The ministry heartbeat of the palette. Evokes candlelight, warmth, and community
 | ![](https://placehold.co/72x32/633806/633806) | Amber 800 | `#633806` | Text on amber surfaces |
 | ![](https://placehold.co/72x32/412402/412402) | Amber 900 | `#412402` | Deep amber, dark mode warning surfaces |
 
----
-
 ### Neutral — Warm Gray
 
 Grounding, human, and approachable. The slightly warm undertone keeps the UI from feeling sterile. Used for page backgrounds, borders, secondary text, and body copy.
@@ -77,8 +71,6 @@ Grounding, human, and approachable. The slightly warm undertone keeps the UI fro
 | ![](https://placehold.co/72x32/5F5E5A/5F5E5A) | Gray 600 | `#5F5E5A` | Borders, muted labels |
 | ![](https://placehold.co/72x32/444441/444441) | Gray 800 | `#444441` | Body text (light mode) |
 | ![](https://placehold.co/72x32/2C2C2A/2C2C2A) | Gray 900 | `#2C2C2A` | Headings, strong text |
-
----
 
 ## Dark mode
 
@@ -95,9 +87,20 @@ Skope launched with a dark-first UI. The dark mode palette is derived from the d
 | ![](https://placehold.co/72x32/1D9E75/1D9E75) | Teal accent (dark) | `#1D9E75` | Same as light mode |
 | ![](https://placehold.co/72x32/EF9F27/EF9F27) | Amber accent (dark) | `#EF9F27` | Same as light mode |
 
-> All CSS should use variables rather than hardcoded values so light mode support can be added in a future release without refactoring.
+## Light mode
 
----
+Light mode surfaces use the warm gray and blue ramps. Key values:
+
+| Swatch | Role | Hex | Notes |
+|--------|------|-----| ----- |
+| ![](https://placehold.co/72x32/F1EFE8/F1EFE8) | Page background | `#F1EFE8` | Warm gray 50 — grounded, not stark white |
+| ![](https://placehold.co/72x32/FFFFFF/FFFFFF) | Surface / card | `#FFFFFF` | Pure white cards lift off the warm background |
+| ![](https://placehold.co/72x32/D3D1C7/D3D1C7) | Border | `#D3D1C7` | Warm gray 100 — soft dividers |
+| ![](https://placehold.co/72x32/444441/444441) | Body text | `#444441` | Warm gray 800 — readable without full black |
+| ![](https://placehold.co/72x32/888780/888780) | Muted text | `#888780` | Warm gray 400 — secondary labels, icons |
+| ![](https://placehold.co/72x32/185FA5/185FA5) | Brand blue (light) | `#185FA5` | Same as dark mode — consistent brand anchor |
+| ![](https://placehold.co/72x32/1D9E75/1D9E75) | Teal accent (light) | `#1D9E75` | Same as dark mode |
+| ![](https://placehold.co/72x32/EF9F27/EF9F27) | Amber accent (light) | `#EF9F27` | Same as dark mode |
 
 ## Typography
 

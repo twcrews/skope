@@ -5,14 +5,14 @@
         <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center"
                      JustifyContent="JustifyContent.SpaceBetween" Style="padding-right: 8px">
             <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="0">
-                <RadzenSidebarToggle Click="@(() => sidebar1Expanded = !sidebar1Expanded)" />
+                <RadzenSidebarToggle Click="@(() => SidebarExpanded = !SidebarExpanded)" />
                 <Wordmark />
             </RadzenStack>
             <AppearanceToggle />
         </RadzenStack>
     </RadzenHeader>
-    <RadzenSidebar @bind-Expanded="@sidebar1Expanded">
-        <RadzenPanelMenu>
+    <RadzenSidebar Responsive="false" Style="@(SidebarExpanded ? null : "width: max-content")">
+        <RadzenPanelMenu DisplayStyle="@(SidebarExpanded ? MenuItemDisplayStyle.IconAndText : MenuItemDisplayStyle.Icon)">
             <RadzenPanelMenuItem Text="Home" Icon="home" />
             <RadzenPanelMenuItem Text="Users" Icon="account_box" />
         </RadzenPanelMenu>
@@ -33,5 +33,5 @@
 </div>
 
 @code {
-    bool sidebar1Expanded = true;
+    bool SidebarExpanded = true;
 }

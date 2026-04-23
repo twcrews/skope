@@ -1,10 +1,30 @@
-﻿
-<MudNavMenu>
-    <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">Home</MudNavLink>
-    <MudNavLink Href="counter" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Add">Counter</MudNavLink>
-    
-    <MudNavLink Href="weather" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.List">Weather</MudNavLink>
-
+﻿<MudNavMenu Style="height: 100%;">
+    <MudStack Style="height: 100%;" Spacing="0">
+        <MudTooltip Text="Home" Placement="Placement.Right" Disabled="DrawerOpen">
+            <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">Home</MudNavLink>
+        </MudTooltip>
+        <MudTooltip Text="Counter" Placement="Placement.Right" Disabled="DrawerOpen">
+            <MudNavLink Href="counter" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Add">Counter</MudNavLink>
+        </MudTooltip>
+        <MudTooltip Text="Weather" Placement="Placement.Right" Disabled="DrawerOpen">
+            <MudNavLink Href="weather" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.List">Weather</MudNavLink>
+        </MudTooltip>
+        <MudSpacer />
+        <MudTooltip Text="@_collapseLabel" Placement="Placement.Right" Disabled="DrawerOpen">
+            <MudNavLink ActiveClass="" Style="border-top:1px solid var(--mud-palette-divider);" Icon="@_collapseIcon"
+                        OnClick="OnToggleDrawer">@_collapseLabel</MudNavLink>
+        </MudTooltip>
+    </MudStack>
 </MudNavMenu>
 
+@code {
+    [Parameter] public bool DrawerOpen { get; set; }
+    [Parameter] public EventCallback OnToggleDrawer { get; set; }
+
+    private string _collapseIcon => DrawerOpen
+        ? MudBlazor.FontIcons.MaterialSymbols.Outlined.LeftPanelClose
+        : MudBlazor.FontIcons.MaterialSymbols.Outlined.LeftPanelOpen;
+
+    private string _collapseLabel => DrawerOpen ? "Collapse" : "Expand";
+}
 

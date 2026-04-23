@@ -5,15 +5,15 @@
 <MudDialogProvider />
 <MudSnackbarProvider />
 <MudLayout>
-    <MudAppBar Elevation="1">
-        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
-        <MudText Typo="Typo.h5" Class="ml-3">Application</MudText>
+    <MudAppBar Elevation="0" Dense Style="border-bottom:1px solid var(--mud-palette-divider);">
+        <MudImage Src="@(_isDarkMode ? "wordmark-light.svg" : "wordmark.svg")" Alt="Skope" Height="32" />
         <MudSpacer />
         <MudIconButton Icon="@(DarkLightModeButtonIcon)" Color="Color.Inherit" OnClick="@DarkModeToggle" />
         <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Edge="Edge.End" />
     </MudAppBar>
-    <MudDrawer id="nav-drawer" @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="2">
-        <NavMenu />
+    <MudDrawer id="nav-drawer" @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="0"
+               Variant="DrawerVariant.Mini" Style="border-right:1px solid var(--mud-palette-divider);">
+        <NavMenu DrawerOpen="_drawerOpen" OnToggleDrawer="DrawerToggle" />
     </MudDrawer>
     <MudMainContent Class="pt-16 pa-4">
         @Body
@@ -28,7 +28,7 @@
 </div>
 
 @code {
-    private bool _drawerOpen = true;
+    private bool _drawerOpen;
     private bool _isDarkMode = true;
     private MudTheme? _theme = null;
 
@@ -40,7 +40,14 @@
         {
             PaletteLight = _lightPalette,
             PaletteDark = _darkPalette,
-            LayoutProperties = new LayoutProperties()
+            LayoutProperties = new LayoutProperties(),
+            Typography = new Typography()
+            {
+                Default = new DefaultTypography()
+                {
+                    FontFamily = new[] { "Inter", "sans-serif" }
+                }
+            }
         };
     }
 
@@ -56,41 +63,59 @@
 
     private readonly PaletteLight _lightPalette = new()
     {
-        Black = "#110e2d",
-        AppbarText = "#424242",
-        AppbarBackground = "rgba(255,255,255,0.8)",
-        DrawerBackground = "#ffffff",
-        GrayLight = "#e8e8e8",
-        GrayLighter = "#f9f9f9",
+        Primary = BrandColors.Blue600,
+        Secondary = BrandColors.Teal400,
+        Tertiary = BrandColors.Amber200,
+        Black = BrandColors.Gray900,
+        Background = BrandColors.Gray50,
+        Surface = BrandColors.White,
+        AppbarBackground = BrandColors.White,
+        AppbarText = BrandColors.Blue600,
+        DrawerBackground = BrandColors.White,
+        DrawerText = BrandColors.Gray800,
+        DrawerIcon = BrandColors.Gray400,
+        TextPrimary = BrandColors.Gray800,
+        TextSecondary = BrandColors.Gray400,
+        LinesDefault = BrandColors.Gray100,
+        TableLines = BrandColors.Gray100,
+        Divider = BrandColors.Gray100,
+        GrayLight = BrandColors.Gray100,
+        GrayLighter = BrandColors.Gray50,
+        Info = BrandColors.Blue400,
+        Success = BrandColors.Teal400,
+        Warning = BrandColors.Amber200,
+        Error = BrandColors.ErrorLight,
     };
 
     private readonly PaletteDark _darkPalette = new()
     {
-        Primary = "#7e6fff",
-        Surface = "#1e1e2d",
-        Background = "#1a1a27",
-        BackgroundGray = "#151521",
-        AppbarText = "#92929f",
-        AppbarBackground = "rgba(26,26,39,0.8)",
-        DrawerBackground = "#1a1a27",
-        ActionDefault = "#74718e",
-        ActionDisabled = "#9999994d",
-        ActionDisabledBackground = "#605f6d4d",
-        TextPrimary = "#b2b0bf",
-        TextSecondary = "#92929f",
-        TextDisabled = "#ffffff33",
-        DrawerIcon = "#92929f",
-        DrawerText = "#92929f",
-        GrayLight = "#2a2833",
-        GrayLighter = "#1e1e2d",
-        Info = "#4a86ff",
-        Success = "#3dcb6c",
-        Warning = "#ffb545",
-        Error = "#ff3f5f",
-        LinesDefault = "#33323e",
-        TableLines = "#33323e",
-        Divider = "#292838",
-        OverlayLight = "#1e1e2d80",
+        Primary = BrandColors.Blue400,
+        Secondary = BrandColors.Teal400,
+        Tertiary = BrandColors.Amber200,
+        Background = BrandColors.DarkBackground,
+        Surface = BrandColors.DarkSurface,
+        BackgroundGray = BrandColors.DarkNavBackground,
+        AppbarBackground = BrandColors.DarkNavBackground,
+        AppbarText = BrandColors.Blue100,
+        DrawerBackground = BrandColors.DarkNavBackground,
+        DrawerText = BrandColors.Blue200,
+        DrawerIcon = BrandColors.Blue200,
+        ActionDefault = BrandColors.Blue100,
+        ActionDisabled = BrandColors.Blue100Alpha30,
+        ActionDisabledBackground = BrandColors.DarkBorderAlpha30,
+        TextPrimary = BrandColors.DarkBodyText,
+        TextSecondary = BrandColors.Blue100,
+        TextDisabled = BrandColors.DarkBodyTextAlpha20,
+        LinesDefault = BrandColors.DarkBorder,
+        TableLines = BrandColors.DarkBorder,
+        Divider = BrandColors.DarkBorder,
+        GrayLight = BrandColors.DarkBorder,
+        GrayLighter = BrandColors.DarkSurface,
+        Info = BrandColors.Blue400,
+        Success = BrandColors.Teal400,
+        Warning = BrandColors.Amber200,
+        Error = BrandColors.ErrorDark,
+        OverlayLight = BrandColors.DarkBackgroundAlpha50,
     };
 
     public string DarkLightModeButtonIcon => _isDarkMode switch

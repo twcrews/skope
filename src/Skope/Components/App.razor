@@ -4,13 +4,30 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="darkreader-lock" />
     <base href="/" />
     <ResourcePreloader />
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+    <link rel="preload"
+        href="_content/MudBlazor.FontIcons.MaterialSymbols/font/MaterialSymbolsRounded.woff2"
+        as="font"
+        type="font/woff2"
+        crossorigin>
+    <link rel="preload"
+        href="_content/MudBlazor.FontIcons.MaterialSymbols/font/MaterialSymbolsOutlined.woff2"
+        as="font"
+        type="font/woff2"
+        crossorigin>
+    <link rel="preload"
+        href="_content/MudBlazor.FontIcons.MaterialSymbols/font/MaterialSymbolsSharp.woff2"
+        as="font"
+        type="font/woff2"
+        crossorigin>
+    <link href="_content/MudBlazor.FontIcons.MaterialSymbols/css/font.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="@Assets["_content/MudBlazor/MudBlazor.min.css"]" />
     <link rel="stylesheet" href="@Assets["Skope.styles.css"]" />
     <ImportMap />
-    <link rel="icon" type="image/ico" href="favicon.ico" />
+    <link rel="icon" type="image/svg" href="favicon.svg" />
     <HeadOutlet @rendermode="InteractiveServer" />
 </head>
 

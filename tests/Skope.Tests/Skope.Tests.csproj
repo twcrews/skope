@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../Crews.Skope/Crews.Skope.csproj" />
+    <ProjectReference Include="../../src/Skope/Skope.csproj" />
   </ItemGroup>
 
   <ItemGroup>

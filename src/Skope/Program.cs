@@ -1,10 +1,12 @@
 using MudBlazor.Services;
+using Skope;
 using Skope.Components;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add MudBlazor services
 builder.Services.AddMudServices();
+builder.Services.AddScoped<MockAuthService>();
 
 // Add services to the container.
 builder.Services.AddRazorComponents()

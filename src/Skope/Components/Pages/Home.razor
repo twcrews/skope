@@ -1,59 +1,214 @@
-﻿@page "/"
+@page "/"
+@inject MockAuthService AuthState
+@implements IDisposable
 
-<PageTitle>Home</PageTitle>
+@if (!AuthState.IsAuthenticated)
+{
+    <PageTitle>Skope</PageTitle>
 
-<MudText Typo="Typo.h3" GutterBottom="true">Hello, world!</MudText>
-<MudText Class="mb-8">Welcome to your new app, powered by MudBlazor and the .NET 10 Template!</MudText>
+    <style>
+        @@keyframes widget-float-a {
+            0%, 100% { transform: translateY(0px) rotate(-1.5deg); }
+            50%       { transform: translateY(-22px) rotate(1.5deg); }
+        }
+        @@keyframes widget-float-b {
+            0%, 100% { transform: translateY(0px) rotate(2deg); }
+            50%       { transform: translateY(18px) rotate(-1deg); }
+        }
+        @@keyframes widget-float-c {
+            0%, 100% { transform: translate(0, 0) rotate(0.5deg); }
+            33%       { transform: translate(-8px, -14px) rotate(-1deg); }
+            66%       { transform: translate(6px, -8px) rotate(1.5deg); }
+        }
+        @@keyframes widget-float-d {
+            0%, 100% { transform: translateY(0) rotate(-0.5deg); }
+            50%       { transform: translateY(-14px) rotate(0.5deg); }
+        }
+        @@keyframes widget-float-e {
+            0%, 100% { transform: translate(0, 0) rotate(1deg); }
+            50%       { transform: translate(10px, 20px) rotate(-1.5deg); }
+        }
+    </style>
 
-<MudAlert Severity="Severity.Normal" ContentAlignment="HorizontalAlignment.Start">
-    You can find documentation and examples on our website here:
-    <MudLink Href="https://mudblazor.com" Target="_blank" Typo="Typo.body2" Color="Color.Primary">
-        <b>www.mudblazor.com</b>
-    </MudLink>
-</MudAlert>
+    <!-- Gradient background -->
+    <div style="@HeroBgStyle"></div>
 
-<br />
-<MudText Typo="Typo.h5" GutterBottom="true">Interactivity in this Template</MudText>
-<br />
-<MudText Typo="Typo.body2">
-    When you opt for the "Global" Interactivity Location, <br />
-    the render modes are defined in App.razor and consequently apply to all child components.<br />
-    In this case, providers are globally set in the MainLayout.<br />
-    <br />
-    On the other hand, if you choose the "Per page/component" Interactivity Location,<br />
-    it is necessary to include the <br />
-    <br />
-    &lt;MudPopoverProvider /&gt; <br />
-    &lt;MudDialogProvider /&gt; <br />
-    &lt;MudSnackbarProvider /&gt; <br />
-    <br />
-    components on every interactive page.<br />
-    <br />
-    If a render mode is not specified for a page, it defaults to Server-Side Rendering (SSR),<br />
-    similar to this page. While MudBlazor allows pages to be rendered in SSR,<br />
-    please note that interactive features, such as buttons and dropdown menus, will not be functional.
-</MudText>
+    <!-- Floating widget layer -->
+    <div style="position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden;">
 
-<br />
-<MudText Typo="Typo.h5" GutterBottom="true">What's New in Blazor with the Release of .NET 10</MudText>
-<br />
+        <!-- Bar chart: Weekly Giving (top-left) -->
+        <div style="@WidgetBase position:absolute;top:8%;left:4%;width:190px;animation:widget-float-a 18s ease-in-out infinite;">
+            <div style="@WidgetLabel">Weekly Giving</div>
+            <div style="font-size:18px;font-weight:700;color:@AccentColor;margin-bottom:8px;">$24,320</div>
+            <svg width="158" height="44" viewBox="0 0 158 44" style="color:@AccentColor;display:block;">
+                <rect x="0"   y="24" width="16" height="20" rx="3" fill="currentColor" opacity="0.40"/>
+                <rect x="21"  y="16" width="16" height="28" rx="3" fill="currentColor" opacity="0.50"/>
+                <rect x="42"  y="10" width="16" height="34" rx="3" fill="currentColor" opacity="0.55"/>
+                <rect x="63"  y="18" width="16" height="26" rx="3" fill="currentColor" opacity="0.45"/>
+                <rect x="84"  y="6"  width="16" height="38" rx="3" fill="currentColor" opacity="0.65"/>
+                <rect x="105" y="12" width="16" height="32" rx="3" fill="currentColor" opacity="0.60"/>
+                <rect x="126" y="0"  width="16" height="44" rx="3" fill="currentColor" opacity="0.80"/>
+            </svg>
+            <div style="@WidgetMeta">▲ 8.4% vs last week</div>
+        </div>
 
-<MudText Typo="Typo.h6" GutterBottom="true">Prerendering</MudText>
-<MudText Typo="Typo.body2" GutterBottom="true">
-    If you're exploring the features of .NET 10 Blazor,<br /> you might be pleasantly surprised to learn that each page is prerendered on the server,<br /> regardless of the selected render mode.<br /><br />
-    This means that you'll need to inject all necessary services on the server,<br /> even when opting for the wasm (WebAssembly) render mode.<br /><br />
-    This prerendering functionality is crucial to ensuring that WebAssembly mode feels fast and responsive,<br /> especially when it comes to initial page load times.<br /><br />
-    For more information on how to detect prerendering and leverage the RenderContext, you can refer to the following link:
-    <MudLink Href="https://github.com/dotnet/aspnetcore/issues/51468#issuecomment-1783568121" Target="_blank" Typo="Typo.body2" Color="Color.Primary">
-        More details
-    </MudLink>
-</MudText>
+        <!-- Sparkline: Attendance (top-right) -->
+        <div style="@WidgetBase position:absolute;top:6%;right:5%;width:200px;animation:widget-float-b 22s ease-in-out infinite;animation-delay:-6s;">
+            <div style="@WidgetLabel">Attendance</div>
+            <div style="font-size:28px;font-weight:700;margin-bottom:6px;">847</div>
+            <svg width="168" height="38" viewBox="0 0 168 38" style="color:@SecondaryColor;display:block;">
+                <polygon points="0,30 24,26 48,20 72,22 96,14 120,9 168,4 168,38 0,38"
+                         fill="currentColor" opacity="0.15"/>
+                <polyline points="0,30 24,26 48,20 72,22 96,14 120,9 168,4"
+                          fill="none" stroke="currentColor" stroke-width="2.5"
+                          stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <div style="@WidgetMeta">▲ 12% vs last Sunday</div>
+        </div>
 
-<br />
-<MudText Typo="Typo.h6" GutterBottom="true">InteractiveAuto</MudText>
-<MudText Typo="Typo.body2">
-    A discussion on how to achieve this can be found here:
-    <MudLink Href="https://github.com/dotnet/aspnetcore/issues/51468#issue-1950424116" Target="_blank" Typo="Typo.body2" Color="Color.Primary">
-        More details
-    </MudLink>
-</MudText>
+        <!-- Big number: Active Groups (middle-left) -->
+        <div style="@WidgetBase position:absolute;top:44%;left:2%;width:150px;animation:widget-float-c 20s ease-in-out infinite;animation-delay:-3s;">
+            <div style="@WidgetLabel">Active Groups</div>
+            <div style="font-size:42px;font-weight:800;color:@AccentColor;line-height:1.1;">34</div>
+            <div style="@WidgetMeta;margin-top:4px;">3 new this month</div>
+        </div>
+
+        <!-- Donut: Services (middle-right) -->
+        <div style="@WidgetBase position:absolute;top:40%;right:3%;width:175px;animation:widget-float-d 16s ease-in-out infinite;animation-delay:-10s;">
+            <div style="@WidgetLabel">Services</div>
+            <div style="display:flex;align-items:center;gap:14px;">
+                <svg width="56" height="56" viewBox="0 0 56 56" style="flex-shrink:0;">
+                    <circle cx="28" cy="28" r="22" fill="none" stroke="@AccentColor"
+                            stroke-width="8" opacity="0.12"/>
+                    <circle cx="28" cy="28" r="22" fill="none" stroke="@AccentColor"
+                            stroke-width="8" stroke-dasharray="55 83" stroke-dashoffset="-14"
+                            opacity="0.85" transform="rotate(-90 28 28)"/>
+                    <circle cx="28" cy="28" r="22" fill="none" stroke="@SecondaryColor"
+                            stroke-width="8" stroke-dasharray="30 108" stroke-dashoffset="-69"
+                            opacity="0.75" transform="rotate(-90 28 28)"/>
+                    <circle cx="28" cy="28" r="22" fill="none" stroke="@TertiaryColor"
+                            stroke-width="8" stroke-dasharray="18 120" stroke-dashoffset="-99"
+                            opacity="0.65" transform="rotate(-90 28 28)"/>
+                </svg>
+                <div>
+                    <div style="font-size:24px;font-weight:700;line-height:1;">12</div>
+                    <div style="@WidgetMeta;margin-top:2px;">this weekend</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Progress bars: Check-ins (bottom-left) -->
+        <div style="@WidgetBase position:absolute;bottom:14%;left:6%;width:180px;animation:widget-float-e 24s ease-in-out infinite;animation-delay:-15s;">
+            <div style="@WidgetLabel">Check-ins Today</div>
+            @foreach (var (category, pct) in new[] { ("Kids", 82), ("Youth", 65), ("Adults", 48) })
+            {
+                <div style="margin-bottom:6px;">
+                    <div style="display:flex;justify-content:space-between;font-size:10px;opacity:0.5;margin-bottom:3px;">
+                        <span>@category</span><span>@(pct)%</span>
+                    </div>
+                    <div style="height:4px;border-radius:2px;background:@AccentColor;opacity:0.15;">
+                        <div style="height:4px;border-radius:2px;background:@AccentColor;width:@(pct)%;opacity:0.85;"></div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <!-- Goal progress: Giving YTD (bottom-right) -->
+        <div style="@WidgetBase position:absolute;bottom:12%;right:4%;width:165px;animation:widget-float-a 19s ease-in-out infinite;animation-delay:-8s;">
+            <div style="@WidgetLabel">Giving YTD</div>
+            <div style="font-size:22px;font-weight:700;color:@SecondaryColor;">$1.24M</div>
+            <div style="@WidgetMeta;margin-top:2px;">Goal: $1.8M (69%)</div>
+            <div style="margin-top:8px;height:6px;border-radius:3px;background:@SecondaryColor;opacity:0.15;">
+                <div style="height:6px;border-radius:3px;background:@SecondaryColor;width:69%;"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Hero content -->
+    <MudContainer MaxWidth="MaxWidth.Small"
+                  Class="d-flex flex-column align-center justify-center"
+                  Style="min-height:calc(100vh - 32px);text-align:center;position:relative;z-index:2;">
+        <MudImage Src="@(IsDarkMode ? "wordmark-light.svg" : "wordmark.svg")"
+                  Alt="Skope" Height="128" Class="mb-6" />
+        <MudText Typo="Typo.h5" Class="mb-2">
+            Planning Center dashboards for your team
+        </MudText>
+        <MudText Typo="Typo.body1" Class="mb-8">
+            Build, share, and explore real-time dashboards powered by your Planning Center data.
+        </MudText>
+        <MudButton Variant="Variant.Filled"
+                   Color="Color.Primary"
+                   Size="Size.Large"
+                   StartIcon="@Icons.Material.Filled.Login"
+                   OnClick="SignIn">
+            Sign In with Planning Center
+        </MudButton>
+    </MudContainer>
+}
+else
+{
+    <PageTitle>Skope — Dashboards</PageTitle>
+    <div style="display: flex; flex-direction: column; min-height: calc(100vh - 80px);">
+        <div style="flex: 1;">
+            <MudText Typo="Typo.h4"  GutterBottom="true">Your Dashboards</MudText>
+            <MudPaper Elevation="0" Class="d-flex flex-column align-center pa-12"
+                      Style="border: 1px dashed var(--mud-palette-divider);">
+                <MudIcon Icon="@Icons.Material.Outlined.Dashboard"
+                         Size="Size.Large" Class="mb-4" />
+                <MudText Typo="Typo.h6" Class="mb-2">No dashboards yet</MudText>
+                <MudText Typo="Typo.body2" Class="mb-6">
+                    Create your first dashboard to start exploring your Planning Center data.
+                </MudText>
+                <MudButton Variant="Variant.Filled" Color="Color.Primary"
+                           StartIcon="@Icons.Material.Filled.Add">
+                    Create Dashboard
+                </MudButton>
+            </MudPaper>
+        </div>
+
+        <MudPaper Elevation="0" Outlined Class="pa-6 mt-8">
+            <MudText Typo="Typo.h4" GutterBottom="true">Discover</MudText>
+            <MudText Typo="Typo.body2" Class="mb-6" Style="opacity: 0.6;">
+                Dashboards created by others in your organization
+            </MudText>
+            <MudDivider Class="mb-6" />
+            <MudText Typo="Typo.body2">
+                <b>Nothing here yet!</b> Public and shared dashboards from your organization will appear here.
+            </MudText>
+        </MudPaper>
+    </div>
+}
+
+@code {
+    [CascadingParameter(Name = "IsDarkMode")] private bool IsDarkMode { get; set; }
+
+    private Action? _authChangeHandler;
+
+    protected override void OnInitialized()
+    {
+        _authChangeHandler = () => InvokeAsync(StateHasChanged);
+        AuthState.OnChange += _authChangeHandler;
+    }
+
+    private void SignIn() => AuthState.SignIn();
+
+    public void Dispose() => AuthState.OnChange -= _authChangeHandler;
+
+    private string HeroBgStyle => IsDarkMode
+        ? "position:fixed;inset:0;z-index:0;background:linear-gradient(135deg,#0E1621 0%,#042C53 55%,#085041 100%);"
+        : "position:fixed;inset:0;z-index:0;background:linear-gradient(135deg,#F1EFE8 0%,#E6F1FB 55%,#E1F5EE 100%);";
+
+    private string WidgetBase => IsDarkMode
+        ? "background:rgba(14,22,33,0.45);border:1px solid rgba(184,212,244,0.08);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-radius:14px;padding:14px 16px;color:#C8DDF0;"
+        : "background:rgba(255,255,255,0.55);border:1px solid rgba(0,0,0,0.06);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-radius:14px;padding:14px 16px;color:#444441;";
+
+    private string WidgetLabel =>
+        "font-size:10px;font-weight:600;opacity:0.5;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px;";
+    private string WidgetMeta =>
+        "font-size:10px;opacity:0.4;margin-top:6px;";
+
+    private string AccentColor    => IsDarkMode ? "#378ADD" : "#185FA5";
+    private string SecondaryColor => IsDarkMode ? "#1D9E75" : "#0F6E56";
+    private string TertiaryColor  => IsDarkMode ? "#EF9F27" : "#BA7517";
+}

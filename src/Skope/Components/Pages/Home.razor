@@ -28,6 +28,10 @@
             0%, 100% { transform: translate(0, 0) rotate(1deg); }
             50%       { transform: translate(10px, 20px) rotate(-1.5deg); }
         }
+        @@keyframes wordmark-materialize {
+            0%   { opacity: 0; filter: blur(24px); }
+            100% { opacity: 1; filter: blur(0); }
+        }
     </style>
 
     <!-- Gradient background -->
@@ -130,7 +134,8 @@
                   Class="d-flex flex-column align-center justify-center"
                   Style="min-height:calc(100vh - 32px);text-align:center;position:relative;z-index:2;">
         <MudImage Src="@(IsDarkMode ? "wordmark-light.svg" : "wordmark.svg")"
-                  Alt="Skope" Height="128" Class="mb-6" />
+                  Alt="Skope" Height="128" Class="mb-6"
+                  Style="animation:wordmark-materialize 2s cubic-bezier(0.22,1,0.36,1) both;" />
         <MudText Typo="Typo.h5" Class="mb-2">
             Planning Center dashboards for your team
         </MudText>

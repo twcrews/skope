@@ -1,12 +1,16 @@
+using Microsoft.EntityFrameworkCore;
 using MudBlazor.Services;
 using Skope;
 using Skope.Components;
+using Skope.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add MudBlazor services
 builder.Services.AddMudServices();
 builder.Services.AddScoped<MockAuthService>();
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
 
 // Add services to the container.
 builder.Services.AddRazorComponents()

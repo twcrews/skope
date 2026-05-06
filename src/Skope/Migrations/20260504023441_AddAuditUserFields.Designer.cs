@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Skope.Data;
 
@@ -11,9 +12,11 @@ using Skope.Data;
 namespace Skope.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260504023441_AddAuditUserFields")]
+    partial class AddAuditUserFields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,12 +35,6 @@ namespace Skope.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("DeletedById")
-                        .HasColumnType("int");
 
                     b.Property<bool>("IsPublic")
                         .HasColumnType("bit");
@@ -66,8 +63,6 @@ namespace Skope.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("DeletedById");
 
                     b.HasIndex("OwnerId");
 
@@ -237,12 +232,6 @@ namespace Skope.Migrations
                     b.Property<int>("DataSource")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("DeletedById")
-                        .HasColumnType("int");
-
                     b.Property<string>("DisplayConfig")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -275,8 +264,6 @@ namespace Skope.Migrations
 
                     b.HasIndex("DashboardId");
 
-                    b.HasIndex("DeletedById");
-
                     b.HasIndex("UpdatedById");
 
                     b.ToTable("Widgets");
@@ -284,11 +271,6 @@ namespace Skope.Migrations
 
             modelBuilder.Entity("Skope.Data.Dashboard", b =>
                 {
-                    b.HasOne("Skope.Data.User", "DeletedBy")
-                        .WithMany()
-                        .HasForeignKey("DeletedById")
-                        .OnDelete(DeleteBehavior.NoAction);
-
                     b.HasOne("Skope.Data.Organization", "Organization")
                         .WithMany("Dashboards")
                         .HasForeignKey("OrganizationId")
@@ -306,8 +288,6 @@ namespace Skope.Migrations
                         .HasForeignKey("UpdatedById")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
-
-                    b.Navigation("DeletedBy");
 
                     b.Navigation("Organization");
 
@@ -381,11 +361,6 @@ namespace Skope.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Skope.Data.User", "DeletedBy")
-                        .WithMany()
-                        .HasForeignKey("DeletedById")
-                        .OnDelete(DeleteBehavior.NoAction);
-
                     b.HasOne("Skope.Data.User", "UpdatedBy")
                         .WithMany()
                         .HasForeignKey("UpdatedById")
@@ -395,8 +370,6 @@ namespace Skope.Migrations
                     b.Navigation("CreatedBy");
 
                     b.Navigation("Dashboard");
-
-                    b.Navigation("DeletedBy");
 
                     b.Navigation("UpdatedBy");
                 });

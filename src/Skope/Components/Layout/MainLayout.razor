@@ -1,22 +1,22 @@
 @inherits LayoutComponentBase
-@inject MockAuthService AuthState
-@implements IDisposable
 
 <MudThemeProvider Theme="@_theme" IsDarkMode="_isDarkMode" />
 <MudPopoverProvider />
 <MudDialogProvider />
 <MudSnackbarProvider />
 <MudLayout>
-    @if (AuthState.IsAuthenticated)
+    @if (_isAuthenticated)
     {
         <MudAppBar Elevation="0" Dense Style="border-bottom:1px solid var(--mud-palette-divider);">
             <MudImage Src="@(_isDarkMode ? "wordmark-light.svg" : "wordmark.svg")" Alt="Skope" Height="28" />
             <MudSpacer />
             <MudIconButton Icon="@(DarkLightModeButtonIcon)" Color="Color.Inherit" OnClick="@DarkModeToggle" />
-            <MudIconButton><MudAvatar Size="Size.Small">T</MudAvatar></MudIconButton>
+            <MudIconButton>
+                <MudAvatar Size="Size.Small">@_initials</MudAvatar>
+            </MudIconButton>
         </MudAppBar>
     }
-    <MudMainContent Class="@(AuthState.IsAuthenticated ? "pt-16 pa-4" : "pa-4")">
+    <MudMainContent Class="@(_isAuthenticated ? "pt-16 pa-4" : "pa-4")">
         <CascadingValue Value="_isDarkMode" Name="IsDarkMode">
             @Body
         </CascadingValue>
@@ -31,16 +31,28 @@
 </div>
 
 @code {
+    [CascadingParameter] private Task<AuthenticationState> AuthenticationState { get; set; } = default!;
+
+    private bool _isAuthenticated;
+    private string? _initials;
     private bool _isDarkMode = true;
     private MudTheme? _theme = null;
-    private Action? _authChangeHandler;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        var state = await AuthenticationState;
+        var user = state.User;
+        _isAuthenticated = user.Identity?.IsAuthenticated ?? false;
+        var name = user.FindFirst("name")?.Value ?? "";
+        var words = name.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        _initials = words.Length >= 2
+            ? $"{words[0][0]}{words[^1][0]}"
+            : words.Length == 1 ? $"{words[0][0]}" : null;
+    }
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
-
-        _authChangeHandler = () => InvokeAsync(StateHasChanged);
-        AuthState.OnChange += _authChangeHandler;
 
         _theme = new()
         {
@@ -56,8 +68,6 @@
             }
         };
     }
-
-    public void Dispose() => AuthState.OnChange -= _authChangeHandler;
 
     private void DarkModeToggle()
     {

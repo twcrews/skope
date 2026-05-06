@@ -140,14 +140,13 @@
                Color="Color.Primary"
                Size="Size.Large"
                StartIcon="@Icons.Material.Filled.Login"
-               OnClick="OnSignIn">
+               Href="/login">
         Sign In with Planning Center
     </MudButton>
 </MudContainer>
 
 @code {
     [CascadingParameter(Name = "IsDarkMode")] private bool IsDarkMode { get; set; }
-    [Parameter] public EventCallback OnSignIn { get; set; }
 
     private string HeroBgStyle => IsDarkMode
         ? "position:fixed;inset:0;z-index:0;background:linear-gradient(135deg,#0E1621 0%,#042C53 55%,#085041 100%);"

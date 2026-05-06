@@ -1,0 +1,30 @@
+@using MudBlazor
+
+<MudChart T="double"
+          ChartType="ChartType.Line"
+          ChartSeries="@_series"
+          ChartLabels="@Data.Labels"
+          Width="100%"
+          Height="250px"
+          ChartOptions="@_options" />
+
+@code {
+    [Parameter, EditorRequired] public SeriesChartViewModel Data { get; set; } = default!;
+    [CascadingParameter(Name = "IsDarkMode")] private bool IsDarkMode { get; set; }
+
+    private List<ChartSeries<double>> _series = [];
+    private ChartOptions _options = new();
+
+    protected override void OnParametersSet()
+    {
+        _series = Data.Series
+            .Select(s => new ChartSeries<double> { Name = s.Name, Data = s.Data })
+            .ToList();
+
+        _options = new ChartOptions
+        {
+            ChartPalette = [BrandColors.Blue400, BrandColors.Teal400, BrandColors.Amber200,
+                            BrandColors.Blue200, BrandColors.Teal600],
+        };
+    }
+}

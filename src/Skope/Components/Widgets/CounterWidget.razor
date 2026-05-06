@@ -1,0 +1,30 @@
+@using MudBlazor
+
+<MudStack AlignItems="AlignItems.Center" Justify="Justify.Center" Class="fill-height pa-2" Style="height:100%;">
+    <MudText Typo="Typo.h2" Style="@($"color:{BrandColors.Blue400}; font-weight:700; line-height:1;")">
+        @Data.FormattedValue
+    </MudText>
+
+    @if (!string.IsNullOrEmpty(Data.Unit))
+    {
+        <MudText Typo="Typo.subtitle1" Style="opacity:0.6;">@Data.Unit</MudText>
+    }
+
+    @if (!string.IsNullOrEmpty(Data.Subtitle))
+    {
+        <MudStack Row AlignItems="AlignItems.Center" Spacing="1">
+            <MudIcon Icon="@(Data.TrendUp ? Icons.Material.Filled.TrendingUp : Icons.Material.Filled.TrendingDown)"
+                     Size="Size.Small"
+                     Style="@($"color:{(Data.TrendUp ? BrandColors.Teal400 : BrandColors.Amber400)}")" />
+            <MudText Typo="Typo.caption"
+                     Style="@($"color:{(Data.TrendUp ? BrandColors.Teal400 : BrandColors.Amber400)}")">
+                @Data.Subtitle
+            </MudText>
+        </MudStack>
+    }
+</MudStack>
+
+@code {
+    [Parameter, EditorRequired] public CounterViewModel Data { get; set; } = default!;
+    [CascadingParameter(Name = "IsDarkMode")] private bool IsDarkMode { get; set; }
+}

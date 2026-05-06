@@ -1,0 +1,47 @@
+@page "/dashboard/{Slug}"
+@rendermode InteractiveServer
+@attribute [Authorize]
+@inject NavigationManager Nav
+
+<PageTitle>@_title — Skope</PageTitle>
+
+@if (_widgets is null)
+{
+    <div class="d-flex justify-center align-center" style="height:50vh;">
+        <MudProgressCircular Indeterminate />
+    </div>
+}
+else
+{
+    <MudText Typo="Typo.h4" GutterBottom="true">@_title</MudText>
+    <MudGrid Spacing="3">
+        @foreach (var widget in _widgets.OrderBy(w => w.Position))
+        {
+            <MudItem xs="12" sm="6" lg="4">
+                <WidgetCard Widget="@widget" />
+            </MudItem>
+        }
+    </MudGrid>
+}
+
+@code {
+    [Parameter] public string Slug { get; set; } = "";
+
+    private string _title = "Dashboard";
+    private List<Widget>? _widgets;
+
+    protected override void OnInitialized()
+    {
+        _title = Slug == "demo" ? "Demo Dashboard" : Slug;
+
+        _widgets =
+        [
+            new Widget { Id = 1, Title = "Total Check-ins",      WidgetType = WidgetType.Counter,    DataSource = DataSource.CheckInsWeeklyTotal,        Position = 0 },
+            new Widget { Id = 2, Title = "Check-ins by Service", WidgetType = WidgetType.BarChart,   DataSource = DataSource.CheckInsByServiceTime,      Position = 1 },
+            new Widget { Id = 3, Title = "Giving Trend",         WidgetType = WidgetType.LineChart,  DataSource = DataSource.GivingMonthlyTrend,         Position = 2 },
+            new Widget { Id = 4, Title = "Volunteer Breakdown",  WidgetType = WidgetType.DonutChart, DataSource = DataSource.VolunteersStatusBreakdown,  Position = 3 },
+            new Widget { Id = 5, Title = "Weekly Giving",        WidgetType = WidgetType.Counter,    DataSource = DataSource.GivingWeeklyTotal,          Position = 4 },
+            new Widget { Id = 6, Title = "Attendance Trend",     WidgetType = WidgetType.LineChart,  DataSource = DataSource.CheckInsWeeklyTrend,        Position = 5 },
+        ];
+    }
+}

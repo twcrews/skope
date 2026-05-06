@@ -1,0 +1,34 @@
+@using MudBlazor
+
+<div style="display:flex; justify-content:center; align-items:center; height:100%;">
+    <MudChart T="double"
+              ChartType="ChartType.Donut"
+              ChartSeries="@_series"
+              ChartLabels="@Data.Labels"
+              Width="220px"
+              Height="220px"
+              ChartOptions="@_options" />
+</div>
+
+@code {
+    [Parameter, EditorRequired] public DonutChartViewModel Data { get; set; } = default!;
+    [CascadingParameter(Name = "IsDarkMode")] private bool IsDarkMode { get; set; }
+
+    private static readonly string[] DefaultPalette =
+    [
+        BrandColors.Blue400, BrandColors.Teal400, BrandColors.Amber200,
+        BrandColors.Blue200, BrandColors.Teal600, BrandColors.Amber400
+    ];
+
+    private List<ChartSeries<double>> _series = [];
+    private ChartOptions _options = new();
+
+    protected override void OnParametersSet()
+    {
+        _series = [new ChartSeries<double> { Name = "Data", Data = Data.Data }];
+        _options = new ChartOptions
+        {
+            ChartPalette = Data.Colors ?? DefaultPalette,
+        };
+    }
+}

@@ -1,0 +1,30 @@
+<MudPaper Elevation="1" Class="pa-4 d-flex flex-column" Style="height:320px;">
+    @if (!string.IsNullOrEmpty(Widget.Title))
+    {
+        <MudText Typo="Typo.subtitle2" Class="mb-3" Style="opacity:0.6; text-transform:uppercase; letter-spacing:0.08em;">
+            @Widget.Title
+        </MudText>
+    }
+    <div style="flex:1; min-height:0;">
+        @switch (Widget.WidgetType)
+        {
+            case WidgetType.Counter:
+                <CounterWidget Data="@MockWidgetData.GetCounter(Widget.DataSource)" />
+                break;
+            case WidgetType.BarChart:
+                <BarChartWidget Data="@MockWidgetData.GetSeriesChart(Widget.DataSource)" />
+                break;
+            case WidgetType.LineChart:
+                <LineChartWidget Data="@MockWidgetData.GetSeriesChart(Widget.DataSource)" />
+                break;
+            case WidgetType.DonutChart:
+                <DonutChartWidget Data="@MockWidgetData.GetDonutChart(Widget.DataSource)" />
+                break;
+        }
+    </div>
+</MudPaper>
+
+@code {
+    [Parameter, EditorRequired] public Widget Widget { get; set; } = default!;
+    [CascadingParameter(Name = "IsDarkMode")] private bool IsDarkMode { get; set; }
+}

@@ -9,21 +9,8 @@
     </NotAuthorized>
     <Authorized Context="authContext">
         <PageTitle>Skope — Dashboards</PageTitle>
-        <MudTable Items="@authContext.User.Claims" Dense Hover Class="mb-8">
-            <ToolBarContent>
-                <MudText Typo="Typo.h6">Claims</MudText>
-            </ToolBarContent>
-            <HeaderContent>
-                <MudTh>Type</MudTh>
-                <MudTh>Value</MudTh>
-            </HeaderContent>
-            <RowTemplate>
-                <MudTd>@context.Type</MudTd>
-                <MudTd Style="word-break:break-all;">@context.Value</MudTd>
-            </RowTemplate>
-        </MudTable>
-        <div style="display: flex; flex-direction: column; min-height: calc(100vh - 80px);">
-            <div style="flex: 1;">
+        <MudStack Style="min-height: calc(100vh - 80px);">
+            <MudStack Style="flex: 1;">
                 <MudStack Row AlignItems="AlignItems.Center" Class="mb-5">
                     <MudText Typo="Typo.h4">Your Dashboards</MudText>
                     <MudSpacer />
@@ -58,7 +45,7 @@
                         @foreach (var dashboard in _dashboards)
                         {
                             <MudItem xs="12" sm="6" lg="4">
-                                <MudPaper Elevation="1" Class="pa-5 cursor-pointer"
+                                <MudPaper Elevation="0" Outlined Class="pa-5 cursor-pointer mud-ripple"
                                           @onclick="@(() => Nav.NavigateTo($"/dashboard/{dashboard.Slug}"))">
                                     <MudStack Row AlignItems="AlignItems.Center" Class="mb-1">
                                         <MudText Typo="Typo.h6">@dashboard.Title</MudText>
@@ -88,7 +75,7 @@
                         }
                     </MudGrid>
                 }
-            </div>
+            </MudStack>
 
             <MudPaper Elevation="0" Outlined Class="pa-6 mt-8">
                 <MudText Typo="Typo.h4" GutterBottom="true">Discover</MudText>
@@ -100,7 +87,7 @@
                     <b>Nothing here yet!</b> Public and shared dashboards from your organization will appear here.
                 </MudText>
             </MudPaper>
-        </div>
+        </MudStack>
     </Authorized>
 </AuthorizeView>
 

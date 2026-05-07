@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using MudBlazor.Services;
 using Skope.Components;
 using Skope.Data;
+using Skope.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -42,6 +43,8 @@ builder.Services.AddPlanningCenterApi();
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+builder.Services.AddScoped<UserService>();
 
 var app = builder.Build();
 

@@ -1,4 +1,6 @@
 @inherits LayoutComponentBase
+@inject UserService UserService
+@implements IDisposable
 
 <MudThemeProvider Theme="@_theme" IsDarkMode="_isDarkMode" />
 <MudPopoverProvider />
@@ -11,9 +13,20 @@
             <MudImage Src="@(_isDarkMode ? "wordmark-light.svg" : "wordmark.svg")" Alt="Skope" Height="28" />
             <MudSpacer />
             <MudIconButton Icon="@(DarkLightModeButtonIcon)" Color="Color.Inherit" OnClick="@DarkModeToggle" />
-            <MudIconButton>
-                <MudAvatar Size="Size.Small">@_initials</MudAvatar>
-            </MudIconButton>
+            <MudMenu AnchorOrigin="Origin.BottomRight" TransformOrigin="Origin.TopRight">
+                <ActivatorContent>
+                    <div @onclick="@context.ToggleAsync" style="cursor: pointer; height: 24px;">
+                        <MudAvatar Size="Size.Small">
+                            <MudImage Src="@UserService.CurrentUser?.Avatar" />
+                        </MudAvatar>
+                    </div>
+                </ActivatorContent>
+                <ChildContent>
+                    <MudMenuItem Icon="@(Icons.Material.Filled.Person)" Label="Profile" />
+                    <MudMenuItem Icon="@(Icons.Material.Filled.Palette)" Label="Theme" />
+                    <MudMenuItem Icon="@(Icons.Material.Filled.Info)" Label="Usage" />
+                </ChildContent>
+            </MudMenu>
         </MudAppBar>
     }
     <MudMainContent Class="@(_isAuthenticated ? "pt-16 pa-4" : "pa-4")">
@@ -34,6 +47,7 @@
     [CascadingParameter] private Task<AuthenticationState> AuthenticationState { get; set; } = default!;
 
     private bool _isAuthenticated;
+    private bool _userLoaded;
     private string? _initials;
     private bool _isDarkMode = true;
     private MudTheme? _theme = null;
@@ -48,11 +62,17 @@
         _initials = words.Length >= 2
             ? $"{words[0][0]}{words[^1][0]}"
             : words.Length == 1 ? $"{words[0][0]}" : null;
+
+        if (_isAuthenticated && !_userLoaded)
+        {
+            _userLoaded = true;
+            await UserService.UpdateCurrentUserAsync();
+        }
     }
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        base.OnInitialized();
+        UserService.CurrentUserChanged += OnCurrentUserChanged;
 
         _theme = new()
         {
@@ -131,6 +151,10 @@
         OverlayLight = BrandColors.DarkBackgroundAlpha50,
         Dark = BrandColors.DarkBodyText,
     };
+
+    private void OnCurrentUserChanged(object? sender, EventArgs e) => InvokeAsync(StateHasChanged);
+
+    public void Dispose() => UserService.CurrentUserChanged -= OnCurrentUserChanged;
 
     public string DarkLightModeButtonIcon => _isDarkMode switch
     {

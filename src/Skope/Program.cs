@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.EntityFrameworkCore;
 using MudBlazor.Services;
+using Skope.Authentication;
 using Skope.Components;
 using Skope.Data;
 using Skope.Services;
@@ -13,7 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add MudBlazor services
 builder.Services.AddMudServices();
-builder.Services.AddDbContext<AppDbContext>(options =>
+builder.Services.AddDbContextFactory<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
 
 builder.Services.AddCascadingAuthenticationState();
@@ -36,6 +37,21 @@ builder.Services.AddAuthentication(options =>
     options.Scope.Add("registrations");
     options.Scope.Add("services");
     options.SaveTokens = true;
+    options.Events = new OpenIdConnectEvents
+    {
+        OnTicketReceived = async ctx =>
+        {
+            var sub = ctx.Principal!.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value ?? "";
+            var accessToken = ctx.Properties!.GetTokenValue("access_token") ?? "";
+            var refreshToken = ctx.Properties!.GetTokenValue("refresh_token") ?? "";
+            var expiresAt = DateTimeOffset.TryParse(ctx.Properties!.GetTokenValue("expires_at"), out var exp)
+                ? exp.UtcDateTime
+                : DateTime.UtcNow.AddHours(2);
+
+            var authService = ctx.HttpContext.RequestServices.GetRequiredService<AuthService>();
+            await authService.UpsertUserAndTokenAsync(sub, accessToken, refreshToken, expiresAt);
+        }
+    };
 });
 
 builder.Services.AddPlanningCenterApi();
@@ -44,6 +60,8 @@ builder.Services.AddPlanningCenterApi();
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
+builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<IPlanningCenterTokenProvider, SkopeTokenProvider>();
 builder.Services.AddScoped<UserService>();
 
 var app = builder.Build();

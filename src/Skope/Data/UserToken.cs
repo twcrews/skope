@@ -9,5 +9,6 @@ public class UserToken
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
     public DateTime ExpiresAt { get; set; }
+    public DateTime RefreshTokenExpiresAt { get; set; }
     public User User { get; set; } = null!;
 }

@@ -1,0 +1,104 @@
+@using System.Text.RegularExpressions
+@using Microsoft.EntityFrameworkCore
+@inject UserService UserService
+@inject IDbContextFactory<AppDbContext> DbFactory
+
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h6">New Dashboard</MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudForm @ref="_form" @bind-IsValid="_isValid">
+            <MudStack Spacing="3">
+                <MudTextField T="string" Label="Name"
+                              Value="_name" ValueChanged="OnNameChanged"
+                              Immediate
+                              Required RequiredError="Name is required" />
+                <MudTextField T="string" Label="Path"
+                              Value="_slug" ValueChanged="OnSlugChanged"
+                              Immediate
+                              Validation="@((string v) => ValidateSlugAsync(v))"
+                              Adornment="Adornment.Start" AdornmentText="@(UserService.CurrentOrganization?.ChurchCenterSubdomain + "/")"
+                              HelperText="URL-safe identifier for this dashboard" />
+                <MudTextField T="string" Label="Description" Variant="Variant.Outlined" FullWidth
+                              @bind-Value="_description"
+                              Lines="3" />
+                <MudStack Spacing="0">
+                    <MudSwitch T="bool" @bind-Value="_isPublic"
+                               Label="Public"
+                               Color="Color.Primary" />
+                    <MudStack Row AlignItems="AlignItems.Center" Spacing="1"
+                              Style="@(_isPublic ? "" : "visibility: hidden;")">
+                        <MudIcon Icon="@Icons.Material.Filled.Warning"
+                                 Size="Size.Small" Color="Color.Warning" />
+                        <MudText Typo="Typo.caption" Color="Color.Warning">
+                            Anyone on the internet can view this dashboard.
+                        </MudText>
+                    </MudStack>
+                </MudStack>
+            </MudStack>
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary"
+                   OnClick="SubmitAsync">Create</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter] IMudDialogInstance MudDialog { get; set; } = null!;
+
+    private MudForm _form = null!;
+    private bool _isValid;
+    private string _name = "";
+    private string _slug = "";
+    private string? _description;
+    private bool _isPublic;
+    private bool _slugEdited;
+
+    private void OnNameChanged(string value)
+    {
+        _name = value;
+        if (!_slugEdited)
+            _slug = ToSlug(value);
+    }
+
+    private void OnSlugChanged(string value)
+    {
+        _slug = value;
+        _slugEdited = true;
+    }
+
+    private static string ToSlug(string input)
+    {
+        var s = input.ToLowerInvariant().Trim();
+        s = Regex.Replace(s, @"[^a-z0-9\s-]", "");
+        s = Regex.Replace(s, @"[\s-]+", "-");
+        return s.Trim('-');
+    }
+
+    private async Task<string?> ValidateSlugAsync(string value)
+    {
+        if (string.IsNullOrEmpty(value))
+            return "Path is required";
+        if (!Regex.IsMatch(value, @"^[a-z0-9]([a-z0-9-]*[a-z0-9])?$"))
+            return "Only lowercase letters, numbers, and hyphens; cannot start or end with a hyphen";
+        var orgId = UserService.CurrentOrganizationId;
+        if (orgId is null) return null;
+        await using var db = await DbFactory.CreateDbContextAsync();
+        var taken = await db.Dashboards.AnyAsync(d => d.Slug == value && d.Owner.PlanningCenterOrganizationId == orgId);
+        return taken ? "This path is already taken" : null;
+    }
+
+    private async Task SubmitAsync()
+    {
+        await _form.ValidateAsync();
+        if (!_isValid) return;
+        MudDialog.Close(DialogResult.Ok(new DashboardInit(_name, _slug, _description, _isPublic)));
+    }
+
+    private void Cancel() => MudDialog.Cancel();
+
+    public record DashboardInit(string Title, string Slug, string? Description, bool IsPublic);
+}

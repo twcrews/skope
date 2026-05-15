@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Skope.Data;
 
@@ -11,9 +12,11 @@ using Skope.Data;
 namespace Skope.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260507175942_AddRefreshTokenExpiry")]
+    partial class AddRefreshTokenExpiry
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -39,11 +42,11 @@ namespace Skope.Migrations
                     b.Property<int?>("DeletedById")
                         .HasColumnType("int");
 
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool>("IsPublic")
                         .HasColumnType("bit");
+
+                    b.Property<int>("OrganizationId")
+                        .HasColumnType("int");
 
                     b.Property<int>("OwnerId")
                         .HasColumnType("int");
@@ -71,9 +74,10 @@ namespace Skope.Migrations
 
                     b.HasIndex("OwnerId");
 
-                    b.HasIndex("Slug");
-
                     b.HasIndex("UpdatedById");
+
+                    b.HasIndex("OrganizationId", "Slug")
+                        .IsUnique();
 
                     b.ToTable("Dashboards");
                 });
@@ -102,6 +106,51 @@ namespace Skope.Migrations
                     b.ToTable("DashboardShares");
                 });
 
+            modelBuilder.Entity("Skope.Data.Organization", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("BillingContactId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DisplayName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PlanningCenterId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Slug")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BillingContactId");
+
+                    b.HasIndex("PlanningCenterId")
+                        .IsUnique();
+
+                    b.HasIndex("Slug")
+                        .IsUnique();
+
+                    b.ToTable("Organizations");
+                });
+
             modelBuilder.Entity("Skope.Data.User", b =>
                 {
                     b.Property<int>("Id")
@@ -116,11 +165,11 @@ namespace Skope.Migrations
                     b.Property<DateTime>("LastSeenAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("OrganizationId")
+                        .HasColumnType("int");
+
                     b.Property<string>("PlanningCenterId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("PlanningCenterOrganizationId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("UpdatedAt")
@@ -128,10 +177,10 @@ namespace Skope.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("OrganizationId");
+
                     b.HasIndex("PlanningCenterId")
                         .IsUnique();
-
-                    b.HasIndex("PlanningCenterOrganizationId");
 
                     b.ToTable("Users");
                 });
@@ -169,8 +218,7 @@ namespace Skope.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId")
-                        .IsUnique();
+                    b.HasIndex("UserId");
 
                     b.ToTable("UserTokens");
                 });
@@ -247,6 +295,12 @@ namespace Skope.Migrations
                         .HasForeignKey("DeletedById")
                         .OnDelete(DeleteBehavior.NoAction);
 
+                    b.HasOne("Skope.Data.Organization", "Organization")
+                        .WithMany("Dashboards")
+                        .HasForeignKey("OrganizationId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
                     b.HasOne("Skope.Data.User", "Owner")
                         .WithMany("OwnedDashboards")
                         .HasForeignKey("OwnerId")
@@ -260,6 +314,8 @@ namespace Skope.Migrations
                         .IsRequired();
 
                     b.Navigation("DeletedBy");
+
+                    b.Navigation("Organization");
 
                     b.Navigation("Owner");
 
@@ -283,6 +339,27 @@ namespace Skope.Migrations
                     b.Navigation("Dashboard");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Skope.Data.Organization", b =>
+                {
+                    b.HasOne("Skope.Data.User", "BillingContact")
+                        .WithMany()
+                        .HasForeignKey("BillingContactId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("BillingContact");
+                });
+
+            modelBuilder.Entity("Skope.Data.User", b =>
+                {
+                    b.HasOne("Skope.Data.Organization", "Organization")
+                        .WithMany("Members")
+                        .HasForeignKey("OrganizationId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Organization");
                 });
 
             modelBuilder.Entity("Skope.Data.UserToken", b =>
@@ -335,6 +412,13 @@ namespace Skope.Migrations
                     b.Navigation("Shares");
 
                     b.Navigation("Widgets");
+                });
+
+            modelBuilder.Entity("Skope.Data.Organization", b =>
+                {
+                    b.Navigation("Dashboards");
+
+                    b.Navigation("Members");
                 });
 
             modelBuilder.Entity("Skope.Data.User", b =>

@@ -1,7 +1,12 @@
 @page "/"
-@inject AppDbContext Db
+@rendermode @(new InteractiveServerRenderMode(prerender: false))
+@inject IDbContextFactory<AppDbContext> DbFactory
 @inject NavigationManager Nav
+@inject IDialogService DialogService
+@inject ISnackbar Snackbar
+@inject UserService UserService
 @using Microsoft.EntityFrameworkCore
+@implements IDisposable
 
 <AuthorizeView>
     <NotAuthorized>
@@ -16,8 +21,8 @@
                     <MudSpacer />
                     <MudButton Variant="Variant.Filled" Color="Color.Primary"
                                StartIcon="@Icons.Material.Filled.Add"
-                               Href="/dashboard/demo">
-                        Create Dashboard
+                               OnClick="OpenNewDashboardDialogAsync">
+                        New Dashboard
                     </MudButton>
                 </MudStack>
 
@@ -46,7 +51,7 @@
                         {
                             <MudItem xs="12" sm="6" lg="4">
                                 <MudPaper Elevation="0" Outlined Class="pa-5 cursor-pointer mud-ripple"
-                                          @onclick="@(() => Nav.NavigateTo($"/dashboard/{dashboard.Slug}"))">
+                                          @onclick="@(() => Nav.NavigateTo($"/{UserService.CurrentOrganization?.ChurchCenterSubdomain}/{dashboard.Slug}"))">
                                     <MudStack Row AlignItems="AlignItems.Center" Class="mb-1">
                                         <MudText Typo="Typo.h6">@dashboard.Title</MudText>
                                         <MudSpacer />
@@ -57,7 +62,7 @@
                                         </MudChip>
                                     </MudStack>
                                     <MudText Typo="Typo.body2" Class="mb-4" Style="opacity:0.45;">
-                                        /@dashboard.Slug
+                                        /@(UserService.CurrentOrganization?.ChurchCenterSubdomain + "/" + dashboard.Slug)
                                     </MudText>
                                     <MudStack Row AlignItems="AlignItems.Center">
                                         <MudIcon Icon="@Icons.Material.Outlined.Widgets"
@@ -92,21 +97,73 @@
 </AuthorizeView>
 
 @code {
-    private const int CurrentUserId = 1;
+    [CascadingParameter] private Task<AuthenticationState> AuthenticationStateTask { get; set; } = default!;
 
+    private int _currentUserId;
     private List<Dashboard>? _dashboards;
 
     protected override async Task OnInitializedAsync()
     {
-        await LoadDashboardsAsync();
+        UserService.CurrentUserChanged += OnCurrentUserChanged;
+        var state = await AuthenticationStateTask;
+        var sub = state.User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+        await using var db = await DbFactory.CreateDbContextAsync();
+        var user = await db.Users.FirstOrDefaultAsync(u => u.PlanningCenterId == sub);
+        _currentUserId = user?.Id ?? 0;
+        await LoadDashboardsAsync(db);
     }
 
-    private async Task LoadDashboardsAsync()
+    private async Task LoadDashboardsAsync(AppDbContext? db = null)
     {
-        _dashboards = await Db.Dashboards
-            .Where(d => d.OwnerId == CurrentUserId)
+        if (db is null)
+        {
+            await using var ownedDb = await DbFactory.CreateDbContextAsync();
+            await LoadDashboardsAsync(ownedDb);
+            return;
+        }
+        _dashboards = await db.Dashboards
+            .Where(d => d.OwnerId == _currentUserId)
             .Include(d => d.Widgets)
             .OrderByDescending(d => d.UpdatedAt)
             .ToListAsync();
+    }
+
+    private async Task OpenNewDashboardDialogAsync()
+    {
+        var options = new DialogOptions { MaxWidth = MaxWidth.Small, FullWidth = true };
+        var dialog = await DialogService.ShowAsync<NewDashboardDialog>("New Dashboard", options);
+        var result = await dialog.Result;
+        if (result is { Canceled: false, Data: NewDashboardDialog.DashboardInit init })
+            await CreateDashboardAsync(init);
+    }
+
+    private void OnCurrentUserChanged(object? sender, EventArgs e) => InvokeAsync(StateHasChanged);
+
+    public void Dispose() => UserService.CurrentUserChanged -= OnCurrentUserChanged;
+
+    private async Task CreateDashboardAsync(NewDashboardDialog.DashboardInit init)
+    {
+        try
+        {
+            await using var db = await DbFactory.CreateDbContextAsync();
+            db.Dashboards.Add(new Dashboard
+            {
+                OwnerId = _currentUserId,
+                UpdatedById = _currentUserId,
+                Title = init.Title,
+                Slug = init.Slug,
+                Description = init.Description,
+                IsPublic = init.IsPublic,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow,
+            });
+            await db.SaveChangesAsync();
+            await LoadDashboardsAsync();
+        }
+        catch (DbUpdateException ex)
+            when (ex.InnerException is Microsoft.Data.SqlClient.SqlException { Number: 2601 or 2627 })
+        {
+            Snackbar.Add($"A dashboard with path \"{init.Slug}\" already exists.", Severity.Error);
+        }
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Skope.Data;
 
@@ -11,9 +12,11 @@ using Skope.Data;
 namespace Skope.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260507202023_AddDashboardDescription")]
+    partial class AddDashboardDescription
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -69,11 +72,10 @@ namespace Skope.Migrations
 
                     b.HasIndex("DeletedById");
 
-                    b.HasIndex("OwnerId");
-
-                    b.HasIndex("Slug");
-
                     b.HasIndex("UpdatedById");
+
+                    b.HasIndex("OwnerId", "Slug")
+                        .IsUnique();
 
                     b.ToTable("Dashboards");
                 });
@@ -120,9 +122,6 @@ namespace Skope.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("PlanningCenterOrganizationId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
@@ -130,8 +129,6 @@ namespace Skope.Migrations
 
                     b.HasIndex("PlanningCenterId")
                         .IsUnique();
-
-                    b.HasIndex("PlanningCenterOrganizationId");
 
                     b.ToTable("Users");
                 });

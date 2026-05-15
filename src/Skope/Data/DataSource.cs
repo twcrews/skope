@@ -8,5 +8,6 @@ public enum DataSource
     GivingWeeklyTotal,
     GivingByFund,
     GivingMonthlyTrend,
-    VolunteersStatusBreakdown
+    VolunteersStatusBreakdown,
+    RichText
 }

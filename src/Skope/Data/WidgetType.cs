@@ -5,5 +5,6 @@ public enum WidgetType
     Counter,
     BarChart,
     LineChart,
-    DonutChart
+    DonutChart,
+    RichText
 }

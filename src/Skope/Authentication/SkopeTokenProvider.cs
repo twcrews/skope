@@ -43,8 +43,11 @@ public sealed class SkopeTokenProvider(
 
     private async Task<string?> RefreshAsync(AppDbContext db, UserToken token, DateTime now)
     {
-        var clientId = config["PlanningCenter:ClientId"];
-        var clientSecret = config["PlanningCenter:ClientSecret"];
+        var section = PlanningCenterAuthenticationDefaults.ConfigurationSection;
+        var clientId = config[$"{section}:ClientId"]
+            ?? throw new InvalidOperationException($"{section}:ClientId is not configured.");
+        var clientSecret = config[$"{section}:ClientSecret"]
+            ?? throw new InvalidOperationException($"{section}:ClientSecret is not configured.");
 
         using var http = new HttpClient();
         var response = await http.PostAsync(
@@ -53,8 +56,8 @@ public sealed class SkopeTokenProvider(
             {
                 ["grant_type"] = "refresh_token",
                 ["refresh_token"] = token.RefreshToken,
-                ["client_id"] = clientId ?? "",
-                ["client_secret"] = clientSecret ?? ""
+                ["client_id"] = clientId,
+                ["client_secret"] = clientSecret
             }));
 
         if (!response.IsSuccessStatusCode)

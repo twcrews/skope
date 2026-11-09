@@ -1,6 +1,6 @@
 using System.Text.Json;
 using Crews.PlanningCenter.Api;
-using Crews.PlanningCenter.Api.People.V2025_11_10;
+using Crews.PlanningCenter.Api.People.V2026_10_05;
 using Microsoft.EntityFrameworkCore;
 using Skope.Data;
 

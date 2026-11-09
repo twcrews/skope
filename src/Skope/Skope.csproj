@@ -10,7 +10,7 @@
 
 
   <ItemGroup>
-    <PackageReference Include="Crews.PlanningCenter.Api" Version="3.4.1" />
+    <PackageReference Include="Crews.PlanningCenter.Api" Version="4.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.*" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.*">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

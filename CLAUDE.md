@@ -26,8 +26,8 @@ The app runs at `http://localhost:5010` (HTTP) or `https://localhost:7223` (HTTP
 
 ### Key Dependencies
 
-- `Crews.PlanningCenter.Api` (v3.2.0) — Planning Center API client
-- `MudBlazor` (v9.*) — UI component library (layout, theming, dark mode)
+- `Crews.PlanningCenter.Api` — Planning Center API client
+- `MudBlazor` — UI component library (layout, theming, dark mode)
 - `xunit` + `coverlet` — Testing and code coverage
 
 ### Authentication
